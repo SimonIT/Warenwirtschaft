@@ -36,7 +36,6 @@ def getLieferant(Lieferantenummer):
 
         for i in Lieferanten:
             if i[0] == Lieferantenummer:
-                print(i)
                 return i[1:]
 
 
@@ -66,22 +65,25 @@ def showArtikel():
 
             Artikel.append(dieserArtikel)
 
-        Zeilenlänge = 18
+        Zeilenlänge = [15, 13, 12, 20, 13, 9, 11, 8, 14, 5]
 
         for i in Artikel:
+            counter = 0
             for j in i:
-                if len(j) > Zeilenlänge:
-                    Zeilenlänge = len(j.replace('\n', ''))
+                if len(j) > Zeilenlänge[counter]:
+                    Zeilenlänge[counter] = len(j.replace('\n', '')) + 2
+                counter += 1
 
-        Zeilenlänge += 2
-        print("Artikelnummer".ljust(Zeilenlänge) + "Bezeichnung".ljust(Zeilenlänge) + "Nettopreis".ljust(
-            Zeilenlänge) + "Mehrwertsteuersatz".ljust(Zeilenlänge) + "Bruttopreis".ljust(Zeilenlänge) + "Bestand".ljust(
-            Zeilenlänge) + "Lieferant".ljust(Zeilenlänge) + "Straße".ljust(Zeilenlänge) + "Postleitzahl".ljust(
-            Zeilenlänge) + "Ort".ljust(Zeilenlänge) + "\n")
+        print("Artikelnummer".ljust(Zeilenlänge[0]) + "Bezeichnung".ljust(Zeilenlänge[1]) + "Nettopreis".ljust(
+            Zeilenlänge[2]) + "Mehrwertsteuersatz".ljust(Zeilenlänge[3]) + "Bruttopreis".ljust(Zeilenlänge[4]) + "Bestand".ljust(
+            Zeilenlänge[5]) + "Lieferant".ljust(Zeilenlänge[6]) + "Straße".ljust(Zeilenlänge[7]) + "Postleitzahl".ljust(
+            Zeilenlänge[8]) + "Ort".ljust(Zeilenlänge[9]) + "\n")
 
         for i in Artikel:
+            counter = 0
             for j in i:
-                print(j.replace('\n', '').ljust(Zeilenlänge), end="")
+                print(j.replace('\n', '').ljust(Zeilenlänge[counter]), end="")
+                counter += 1
             print()
 
 
