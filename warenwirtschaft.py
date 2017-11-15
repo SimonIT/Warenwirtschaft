@@ -16,10 +16,9 @@ def add_article():
     print("Bitte geben Sie die Lieferantenummer ein:")
     deliveryman_number = input()
 
-    file = open(filename_article, "a")
-
-    file.write(
-        article_number + ";" + name + ";" + net_price + ";" + vat_rate + ";" + inventory + ";" + deliveryman_number + "\n")
+    with open(filename_article, "a") as file:
+        file.write(
+            article_number + ";" + name + ";" + net_price + ";" + vat_rate + ";" + inventory + ";" + deliveryman_number + "\n")
 
 
 def get_deliveryman(deliverymen_number):
