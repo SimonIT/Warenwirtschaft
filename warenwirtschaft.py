@@ -1,97 +1,95 @@
-import os
-
-fileNameArtikel = "artikel.txt"
-fileNameLieferanten = "lieferanten.txt"
+filename_article = "artikel.txt"
+filename_deliverymen = "lieferanten.txt"
 
 
-def addArtikel():
+def add_article():
     print("Bitte geben Sie die Artikelnummer ein: ")
-    Artikelnummer = input()
+    article_number = input()
     print("Bitte geben Sie die Bezeichnung ein:")
-    Bezeichnung = input()
+    name = input()
     print("Bitte geben Sie den Nettopreis in Euro ein: (ohne Eurozeichen)")
-    Nettopreis = input()
+    net_price = input()
     print("Bitte geben Sie den Mehrwertsteuersatz in Prozent ein: (ohne Prozentzeichen)")
-    Mehrwertsteuersatz = input()
+    vat_rate = input()
     print("Bitte geben Sie den Bestand ein:")
-    Bestand = input()
+    inventory = input()
     print("Bitte geben Sie die Lieferantenummer ein:")
-    Lieferantenummer = input()
+    deliveryman_number = input()
 
-    file = open(fileNameArtikel, "a")
+    file = open(filename_article, "a")
 
     file.write(
-        Artikelnummer + ";" + Bezeichnung + ";" + Nettopreis + ";" + Mehrwertsteuersatz + ";" + Bestand + ";" + Lieferantenummer + "\n")
+        article_number + ";" + name + ";" + net_price + ";" + vat_rate + ";" + inventory + ";" + deliveryman_number + "\n")
 
 
-def getLieferant(Lieferantenummer):
-    if os.path.isfile(fileNameLieferanten):
-        file = open(fileNameLieferanten, "r")
-
+def get_deliveryman(deliverymen_number):
+    with open(filename_deliverymen, "r") as file:
         lines = file.readlines()
 
-        Lieferanten = []
+        deliverymen = []
         for i in lines:
-            Lieferanten.append(i.split(";"))
+            deliverymen.append(i.split(";"))
 
-        for i in Lieferanten:
-            if i[0] == Lieferantenummer:
+        for i in deliverymen:
+            if i[0] == deliverymen_number:
                 return i[1:]
 
 
-def showArtikel():
-    if os.path.isfile(fileNameArtikel):
-        file = open(fileNameArtikel, "r")
+def show_article():
+    with open(filename_article, "r") as file:
 
         lines = file.readlines()
 
-        Artikel = []
+        article = []
 
         for i in lines:
-            dieserArtikel = i.split(";")
+            this_article = i.split(";")
 
-            Nettopreis = float(dieserArtikel[2].replace("€", ""))
-            Mehrwertsteuersatz = float(dieserArtikel[3].replace("%", "")) / 100
+            net_price = float(this_article[2].replace("€", ""))
+            vat_rate = float(this_article[3].replace("%", "")) / 100
 
-            Bruttopreis = Nettopreis * (1 + Mehrwertsteuersatz)
+            gross_price = net_price * (1 + vat_rate)
 
-            dieserArtikel.insert(4, str(Bruttopreis))
+            this_article.insert(4, str(gross_price))
 
-            LieferantenInformationen = getLieferant(dieserArtikel[6].replace("\n", ""))
+            deliveryman_informations = get_deliveryman(this_article[6].replace("\n", ""))
 
-            dieserArtikel.pop()
+            this_article.pop()
 
-            dieserArtikel += LieferantenInformationen
+            this_article += deliveryman_informations
 
-            Artikel.append(dieserArtikel)
+            article.append(this_article)
 
-        Zeilenlänge = [15, 13, 12, 20, 13, 9, 11, 8, 14, 5]
+        line_length = [15, 13, 12, 20, 13, 9, 11, 8, 14, 5]
 
-        for i in Artikel:
+        for i in article:
             counter = 0
             for j in i:
-                if len(j) > Zeilenlänge[counter]:
-                    Zeilenlänge[counter] = len(j.replace('\n', '')) + 2
+                if len(j) > line_length[counter]:
+                    line_length[counter] = len(j.replace('\n', '')) + 2
                 counter += 1
 
-        print("Artikelnummer".ljust(Zeilenlänge[0]) + "Bezeichnung".ljust(Zeilenlänge[1]) + "Nettopreis".ljust(
-            Zeilenlänge[2]) + "Mehrwertsteuersatz".ljust(Zeilenlänge[3]) + "Bruttopreis".ljust(Zeilenlänge[4]) + "Bestand".ljust(
-            Zeilenlänge[5]) + "Lieferant".ljust(Zeilenlänge[6]) + "Straße".ljust(Zeilenlänge[7]) + "Postleitzahl".ljust(
-            Zeilenlänge[8]) + "Ort".ljust(Zeilenlänge[9]) + "\n")
+        print("Artikelnummer".ljust(line_length[0]) + "Bezeichnung".ljust(line_length[1]) + "Nettopreis".ljust(
+            line_length[2]) + "Mehrwertsteuersatz".ljust(line_length[3]) + "Bruttopreis".ljust(
+            line_length[4]) + "Bestand".ljust(
+            line_length[5]) + "Lieferant".ljust(line_length[6]) + "Straße".ljust(
+            line_length[7]) + "Postleitzahl".ljust(
+            line_length[8]) + "Ort".ljust(line_length[9]) + "\n")
 
-        for i in Artikel:
+        for i in article:
             counter = 0
             for j in i:
-                print(j.replace('\n', '').ljust(Zeilenlänge[counter]), end="")
+                print(j.replace('\n', '').ljust(line_length[counter]), end="")
                 counter += 1
             print()
 
 
-while True:
-    print("1. Artikel Hinzufügen\n2. Artikel Anzeigen\n")
-    choice = input()
+if __name__ == "__main__":
+    while True:
+        print("1. Artikel Hinzufügen\n2. Artikel Anzeigen\n")
+        choice = input()
 
-    if "1" in choice:
-        addArtikel()
-    elif "2" in choice:
-        showArtikel()
+        if "1" in choice:
+            add_article()
+        elif "2" in choice:
+            show_article()
