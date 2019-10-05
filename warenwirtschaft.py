@@ -1,5 +1,5 @@
 filename_article = "artikel.txt"
-filename_deliverymen = "lieferanten.txt"
+filename_delivery_man = "lieferanten.txt"
 
 
 def add_article():
@@ -21,8 +21,8 @@ def add_article():
             article_number + ";" + name + ";" + net_price + ";" + vat_rate + ";" + inventory + ";" + deliveryman_number + "\n")
 
 
-def get_deliveryman(deliverymen_number):
-    with open(filename_deliverymen, "r") as file:
+def get_delivery_man(delivery_man_number):
+    with open(filename_delivery_man, "r") as file:
         lines = file.readlines()
 
         deliverymen = []
@@ -30,13 +30,12 @@ def get_deliveryman(deliverymen_number):
             deliverymen.append(i.split(";"))
 
         for i in deliverymen:
-            if i[0] == deliverymen_number:
+            if i[0] == delivery_man_number:
                 return i[1:]
 
 
 def show_article():
     with open(filename_article, "r") as file:
-
         lines = file.readlines()
 
         article = []
@@ -51,11 +50,11 @@ def show_article():
 
             this_article.insert(4, str(gross_price))
 
-            deliveryman_informations = get_deliveryman(this_article[6].replace("\n", ""))
+            delivery_man_information = get_delivery_man(this_article[6].replace("\n", ""))
 
             this_article.pop()
 
-            this_article += deliveryman_informations
+            this_article += delivery_man_information
 
             article.append(this_article)
 
@@ -85,7 +84,7 @@ def show_article():
 
 if __name__ == "__main__":
     while True:
-        print("1. Artikel Hinzufügen\n2. Artikel Anzeigen\n")
+        print("1. Artikel hinzufügen\n2. Artikel anzeigen\n")
         choice = input()
 
         if "1" in choice:
